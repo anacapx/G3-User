@@ -1,14 +1,18 @@
 package com.g3.user.service;
 
-import com.g3.user.dao.UserDao;
-import com.g3.user.exception.customException.UserNotFoundException;
-import com.g3.user.exception.customException.CpfOrEmailInUseException;
-import com.g3.user.model.User;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.g3.user.dao.UserDao;
+import com.g3.user.exception.customException.CpfOrEmailInUseException;
+import com.g3.user.exception.customException.UserNotFoundException;
+import com.g3.user.model.User;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -20,7 +24,7 @@ public class UserServiceImpl implements UserService{
             throw new CpfOrEmailInUseException();
         }
 
-        if(!dao.findByCpf(user.getEmail()).isEmpty()){
+        if(!dao.findByEmail(user.getEmail()).isEmpty()){
             throw new CpfOrEmailInUseException();
         }
 
@@ -48,7 +52,6 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-
     public void delete(Integer id) throws UserNotFoundException {
         if (dao.findById(id).isEmpty()){
             throw new UserNotFoundException();
@@ -74,5 +77,4 @@ public class UserServiceImpl implements UserService{
     public List<User> searchByEmail(String email){
         return dao.findByEmailContainingIgnoreCase(email);
     }
-
 }

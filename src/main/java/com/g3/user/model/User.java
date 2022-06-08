@@ -1,13 +1,23 @@
 package com.g3.user.model;
 
-import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
-
-import javax.persistence.*;
 import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
+// import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -44,6 +54,4 @@ public class User {
     @NotBlank(message="O campo EMAIL deve ser preenchido.")
     @Column(name = "user_email")
     private String email;
-
-
 }
