@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     UserService service;
 
-    @GetMapping("/getall")
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
         try{
             List<User> users = service.getAll();
