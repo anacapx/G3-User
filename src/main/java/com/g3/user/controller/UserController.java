@@ -2,7 +2,7 @@ package com.g3.user.controller;
 
 import com.g3.user.exception.customException.*;
 import com.g3.user.model.User;
-import com.g3.user.service.UserService;
+import com.g3.user.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
