@@ -17,12 +17,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
     UserService service;
 
-    @GetMapping("/getall")
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
         try{
             List<User> users = service.getAll();
