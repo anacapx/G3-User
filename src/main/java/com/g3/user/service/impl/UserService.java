@@ -1,4 +1,4 @@
-package com.g3.user.service;
+package com.g3.user.service.impl;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class UserServiceImpl implements UserService{
+public class UserService implements IUserService{
 
     @Autowired
     UserDao dao;
