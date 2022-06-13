@@ -26,7 +26,6 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 			}
 			
 			filterChain.doFilter(request, response);			
-			System.out.println("deu ruim");
 
 	}
 
