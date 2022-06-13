@@ -1,4 +1,4 @@
-package com.g3.user.service.impl;
+package com.g3.user.service.interfaces;
 
 import java.util.List;
 

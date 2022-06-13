@@ -9,6 +9,7 @@ import com.g3.user.dao.UserDao;
 import com.g3.user.exception.customException.CpfOrEmailInUseException;
 import com.g3.user.exception.customException.UserNotFoundException;
 import com.g3.user.model.User;
+import com.g3.user.service.interfaces.IUserService;
 
 import lombok.AllArgsConstructor;
 
