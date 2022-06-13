@@ -21,7 +21,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserService service;
+    IUserService service;
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {

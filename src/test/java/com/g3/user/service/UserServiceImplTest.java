@@ -1,4 +1,4 @@
-package com.g3.user.service;
+package com.g3.user.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,15 +25,15 @@ import com.g3.user.exception.customException.UserNotFoundException;
 import com.g3.user.model.User;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
+public class UserServiceTest {
 
     @Mock
     private UserDao userDao;
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
-        userServiceImpl = new UserServiceImpl(userDao);
+        uuserService = new UserService(userDao);
     }
 
 
@@ -47,7 +47,7 @@ public class UserServiceImplTest {
 
         // When
         when(userDao.findById(id)).thenReturn(optionalUser);
-        userServiceImpl.delete(id);
+        userService.delete(id);
 
         // Then
         verify(userDao).deleteById(id);
@@ -61,7 +61,7 @@ public class UserServiceImplTest {
         when(userDao.findById(id)).thenThrow(UserNotFoundException.class);
 
         // Then
-        assertThrows(UserNotFoundException.class, () -> userServiceImpl.delete(id));
+        assertThrows(UserNotFoundException.class, () -> userService.delete(id));
 
         verify(userDao, never()).deleteById(id);
     }
@@ -69,7 +69,7 @@ public class UserServiceImplTest {
     @Test
     void itShouldReturnAlistOfUsers() {
         // When
-        userServiceImpl.getAll();
+        userService.getAll();
 
         // Then
         verify(userDao).findAll();
@@ -82,7 +82,7 @@ public class UserServiceImplTest {
         User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
 
         // When
-        userServiceImpl.register(user);
+        userService.register(user);
 
         // Then
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
@@ -104,7 +104,7 @@ public class UserServiceImplTest {
         when(userDao.findByCpf(user.getCpf())).thenThrow(CpfOrEmailInUseException.class);
         
         // Then
-        assertThrows(CpfOrEmailInUseException.class, () -> userServiceImpl.register(user));
+        assertThrows(CpfOrEmailInUseException.class, () -> userService.register(user));
 
         verify(userDao, never()).save(any());
     }
@@ -119,7 +119,7 @@ public class UserServiceImplTest {
         when(userDao.findByEmail(user.getEmail())).thenThrow(CpfOrEmailInUseException.class);
         
         // Then
-        assertThrows(CpfOrEmailInUseException.class, () -> userServiceImpl.register(user));
+        assertThrows(CpfOrEmailInUseException.class, () -> userService.register(user));
 
         verify(userDao, never()).save(any());
     }
@@ -136,7 +136,7 @@ public class UserServiceImplTest {
         // When
         when(userDao.findByCpfContaining(user.getCpf())).thenReturn(usersList);
 
-        userServiceImpl.searchByCPF(user.getCpf());
+        userService.searchByCPF(user.getCpf());
 
         // Then
         verify(userDao).findByCpfContaining(any());
@@ -154,7 +154,7 @@ public class UserServiceImplTest {
         // When
         when(userDao.findByEmailContainingIgnoreCase(user.getEmail())).thenReturn(usersList);
 
-        userServiceImpl.searchByEmail(user.getEmail());
+        userService.searchByEmail(user.getEmail());
 
         // Then
         verify(userDao).findByEmailContainingIgnoreCase(any());
@@ -171,7 +171,7 @@ public class UserServiceImplTest {
         // When
         when(userDao.findById(id)).thenReturn(optionalUser);
 
-        userServiceImpl.searchById(id);
+        userService.searchById(id);
 
         // Then
         assertEquals(10, optionalUser.get().getId());
@@ -186,7 +186,7 @@ public class UserServiceImplTest {
         when(userDao.findById(id)).thenThrow(UserNotFoundException.class);
 
         //then
-        assertThrows(UserNotFoundException.class, () -> userServiceImpl.searchById(id));
+        assertThrows(UserNotFoundException.class, () -> userService.searchById(id));
     }
 
     @Test
@@ -201,7 +201,7 @@ public class UserServiceImplTest {
         // When
         when(userDao.findByNameContainingIgnoreCase(user.getName())).thenReturn(usersList);
 
-        userServiceImpl.searchByName(user.getName());
+        userService.searchByName(user.getName());
 
         // Then
         verify(userDao).findByNameContainingIgnoreCase(any());
@@ -218,7 +218,7 @@ public class UserServiceImplTest {
         // When
         when(userDao.findById(id)).thenReturn(optionalUser);
 
-        userServiceImpl.update(user, id);
+        userService.update(user, id);
 
         // Then
         verify(userDao).save(any());
