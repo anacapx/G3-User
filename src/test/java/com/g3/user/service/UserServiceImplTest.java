@@ -33,7 +33,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        uuserService = new UserService(userDao);
+        userService = new UserService(userDao);
     }
 
 
