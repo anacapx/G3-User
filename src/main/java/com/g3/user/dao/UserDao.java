@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.g3.user.exception.customException.CpfOrEmailInUseException;
 import com.g3.user.model.User;
 
-public interface UserDao extends JpaRepository<User, Integer> {
+public interface UserDao extends JpaRepository<User, Long> {
     List<User> findByNameContainingIgnoreCase(String name);
     List<User> findByCpfContaining(String cpf);
     List<User> findByEmailContainingIgnoreCase(String email);

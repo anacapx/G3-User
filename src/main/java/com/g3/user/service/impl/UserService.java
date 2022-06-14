@@ -36,7 +36,7 @@ public class UserService implements IUserService{
         return dao.findAll();
     }
 
-    public User update(User newUserData, Integer userId) throws UserNotFoundException {
+    public User update(User newUserData, Long userId) throws UserNotFoundException {
         if (dao.findById(userId).isEmpty()){
             throw new UserNotFoundException();
         }
@@ -53,14 +53,14 @@ public class UserService implements IUserService{
         return user;
     }
 
-    public void delete(Integer id) throws UserNotFoundException {
+    public void delete(Long id) throws UserNotFoundException {
         if (dao.findById(id).isEmpty()){
             throw new UserNotFoundException();
         }
         dao.deleteById(id);
     }
 
-    public User searchById(Integer id) throws UserNotFoundException {
+    public User searchById(Long id) throws UserNotFoundException {
         if (dao.findById(id).isEmpty()){
             throw new UserNotFoundException();
         }

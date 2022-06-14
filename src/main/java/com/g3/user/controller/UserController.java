@@ -36,7 +36,7 @@ public class UserController {
 
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> searchUserById(@PathVariable Integer userId) {
+    public ResponseEntity<User> searchUserById(@PathVariable Long userId) {
         try{
             User user = service.searchById(userId);
             return ResponseEntity.ok(user);
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Integer userId, @Valid @RequestBody User newUserData, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @Valid @RequestBody User newUserData, UriComponentsBuilder uriBuilder){
         try {
             service.update(newUserData, userId);
 
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<User> deleteUser(@PathVariable Integer userId) {
+    public ResponseEntity<User> deleteUser(@PathVariable Long userId) {
         try{
             service.delete(userId);
             return ResponseEntity.ok().build();
