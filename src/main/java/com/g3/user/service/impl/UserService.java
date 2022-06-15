@@ -11,9 +11,7 @@ import com.g3.user.exception.customException.UserNotFoundException;
 import com.g3.user.model.User;
 import com.g3.user.service.interfaces.IUserService;
 
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Service
 public class UserService implements IUserService{
 
