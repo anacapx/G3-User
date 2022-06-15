@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: g3-user
+  namespace: namespace-g3
+spec:
+  selector:
+    matchLabels:
+      app: g3-user
+  template:
+    metadata:
+      labels:
+        app: g3-user
+    spec:
+      containers:
+        - name: g3-user
+          image: $URL_IMG_USER_DOCKER
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8081
