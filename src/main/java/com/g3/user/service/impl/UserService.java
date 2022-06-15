@@ -1,8 +1,12 @@
 package com.g3.user.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.g3.user.dao.UserDao;
@@ -30,8 +34,14 @@ public class UserService implements IUserService{
         return dao.save(user);
     }
 
-    public List<User> getAll(){
-        return dao.findAll();
+    public List<User> getAll(int page, int size){
+    	Pageable pageable = PageRequest.of(page, size);
+    	Page<User> usersPage = dao.findAll(pageable);
+    	List<User> usersList = new ArrayList<>();
+		for (User user : usersPage) {
+			usersList.add(user);
+		}
+        return usersList;
     }
 
     public User update(User newUserData, Long userId) throws UserNotFoundException {
