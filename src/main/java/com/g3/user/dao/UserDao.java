@@ -2,6 +2,8 @@ package com.g3.user.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.g3.user.exception.customException.CpfOrEmailInUseException;
@@ -14,4 +16,5 @@ public interface UserDao extends JpaRepository<User, Long> {
     List<User> findByCpf(String cpf) throws CpfOrEmailInUseException;
     List<User> findByEmail(String email) throws CpfOrEmailInUseException;
     List<User> findByEmailIgnoreCase(String email);
+    Page<User> findAll(Pageable pageable);
 }

@@ -8,7 +8,7 @@ import com.g3.user.model.User;
 
 public interface IUserService {
     public User register(User user) throws CpfOrEmailInUseException;
-    public List<User> getAll();
+    public List<User> getAll(int page, int size);
     public User update(User newUserData, Long userId) throws UserNotFoundException;
     public void delete(Long id) throws UserNotFoundException;
     public List<User> searchByName(String name);
