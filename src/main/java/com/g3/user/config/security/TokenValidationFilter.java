@@ -19,7 +19,7 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-			String token = request.getHeader("Authorization");
+			String token = getToken(request);
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = RestService.validateToken(token);
 			if (usernamePasswordAuthenticationToken != null) {			
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -27,6 +27,15 @@ public class TokenValidationFilter extends OncePerRequestFilter {
 			
 			filterChain.doFilter(request, response);			
 
+	}
+	
+	private String getToken(HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+		if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
+			return null;
+		}
+		
+		return token.substring(7, token.length());
 	}
 
 }
