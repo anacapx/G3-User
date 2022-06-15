@@ -61,15 +61,6 @@ public class UserServiceTest {
     }
 
     @Test
-    void itShouldReturnAlistOfUsers() {
-        // When
-        userService.getAll();
-
-        // Then
-        verify(userDao).findAll();
-    }
-
-    @Test
     void itShouldCreateAnewUserWithValidParameters() throws CpfOrEmailInUseException {
         // Given
         User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
