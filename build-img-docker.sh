@@ -1,1 +1,0 @@
-docker build -t debrum/ilab-g3-user -f Dockerfile .
