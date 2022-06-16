@@ -1,4 +1,4 @@
-package com.g3.user.service.impl;
+package com.g3.user.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -23,63 +23,47 @@ import com.g3.user.dao.UserDao;
 import com.g3.user.exception.customException.CpfOrEmailInUseException;
 import com.g3.user.exception.customException.UserNotFoundException;
 import com.g3.user.model.User;
+import com.g3.user.service.impl.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
     @Mock
     private UserDao userDao;
-    private UserService userService;
 
-    @BeforeEach
-    void setUp() {
-        userService = new UserService(userDao);
-    }
+    @InjectMocks
+    private UserService userService;
 
 
     @Test
     void itShouldDeleteUserWithValidId() throws UserNotFoundException {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
         Optional<User> optionalUser = Optional.of(user);
-        int id = 10;
 
         // When
-        when(userDao.findById(id)).thenReturn(optionalUser);
-        userService.delete(id);
+        when(userDao.findById(10L)).thenReturn(optionalUser);
+        userService.delete(10L);
 
         // Then
-        verify(userDao).deleteById(id);
+        verify(userDao).deleteById(10L);
     }
 
     @Test
     void itShouldThrowsAnUserNotFoundExceptionWhenAnInvalidIdIsPassedInFindByIdMethod() throws UserNotFoundException {
-        int id = 10;
-
         // When
-        when(userDao.findById(id)).thenThrow(UserNotFoundException.class);
+        when(userDao.findById(10L)).thenThrow(UserNotFoundException.class);
 
         // Then
-        assertThrows(UserNotFoundException.class, () -> userService.delete(id));
+        assertThrows(UserNotFoundException.class, () -> userService.delete(10L));
 
-        verify(userDao, never()).deleteById(id);
+        verify(userDao, never()).deleteById(10L);
     }
 
     @Test
-    void itShouldReturnAlistOfUsers() {
-        // When
-        userService.getAll();
-
-        // Then
-        verify(userDao).findAll();
-    }
-
-    @Test
-    void itShouldAddAnewUserWithValidParameters() throws CpfOrEmailInUseException {
+    void itShouldCreateAnewUserWithValidParameters() throws CpfOrEmailInUseException {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
 
         // When
         userService.register(user);
@@ -97,8 +81,7 @@ public class UserServiceTest {
     @Test
     void itShouldThrowsAnCpfOrEmailInUseExceptionIfCpfAlreadyExists() throws CpfOrEmailInUseException {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
 
         // When
         when(userDao.findByCpf(user.getCpf())).thenThrow(CpfOrEmailInUseException.class);
@@ -112,8 +95,7 @@ public class UserServiceTest {
     @Test
     void itShouldThrowsAnCpfOrEmailInUseExceptionIfEmailAlreadyExists() throws CpfOrEmailInUseException {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
 
         // When
         when(userDao.findByEmail(user.getEmail())).thenThrow(CpfOrEmailInUseException.class);
@@ -127,8 +109,7 @@ public class UserServiceTest {
     @Test
     void itShouldReturnAuserRelatedToAvalidCpf() {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
 
         List<User> usersList = new ArrayList<User>();
         usersList.add(user);
@@ -145,8 +126,7 @@ public class UserServiceTest {
     @Test
     void itShouldReturnAuserRelatedToAvalidEmail() {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
 
         List<User> usersList = new ArrayList<User>();
         usersList.add(user);
@@ -163,15 +143,13 @@ public class UserServiceTest {
     @Test
     void ItShouldSearchAndReturnAuserByID() {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
         Optional<User> optionalUser = Optional.of(user);
-        int id = 10;
 
         // When
-        when(userDao.findById(id)).thenReturn(optionalUser);
+        when(userDao.findById(10L)).thenReturn(optionalUser);
 
-        userService.searchById(id);
+        userService.searchById(10L);
 
         // Then
         assertEquals(10, optionalUser.get().getId());
@@ -179,21 +157,17 @@ public class UserServiceTest {
 
     @Test
     void itShouldThrowsAnUserNotFoundExceptionForFindByIdMethod() {
-        // Given
-        int id = 10;
-
         // When
-        when(userDao.findById(id)).thenThrow(UserNotFoundException.class);
+        when(userDao.findById(10L)).thenThrow(UserNotFoundException.class);
 
         //then
-        assertThrows(UserNotFoundException.class, () -> userService.searchById(id));
+        assertThrows(UserNotFoundException.class, () -> userService.searchById(10L));
     }
 
     @Test
-    void ItShouldSearchAndReturnAuserByName() {
+    void ItShouldSearchAndReturnAuserByHisName() {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
 
         List<User> usersList = new ArrayList<User>();
         usersList.add(user);
@@ -208,17 +182,15 @@ public class UserServiceTest {
     }
 
     @Test
-    void itShouldUpdateAnUserInfo() {
+    void itShouldUpdateUserInfo() {
         // Given
-        LocalDate birthDate = LocalDate.of(1988, 05, 13);
-        User user = new User(10, "Usuário Um", "461.349.700-00", "11999991111", birthDate, "usuarioum@email.com");
+        User user = new User(10L, "Usuário Teste", "461.349.700-00", "11999991111", LocalDate.of(2000, 12, 31), "usuarioteste@email.com");
         Optional<User> optionalUser = Optional.of(user);
-        int id = 10;
 
         // When
-        when(userDao.findById(id)).thenReturn(optionalUser);
+        when(userDao.findById(10L)).thenReturn(optionalUser);
 
-        userService.update(user, id);
+        userService.update(user, 10L);
 
         // Then
         verify(userDao).save(any());
