@@ -1,19 +1,32 @@
 package com.g3.user.controller;
 
-import com.g3.user.exception.customException.*;
-import com.g3.user.model.User;
-import com.g3.user.service.interfaces.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.g3.user.exception.customException.BadRequestException;
+import com.g3.user.exception.customException.CpfOrEmailInUseException;
+import com.g3.user.exception.customException.ErrorException;
+import com.g3.user.exception.customException.ResourceNotFoundException;
+import com.g3.user.exception.customException.UserNotFoundException;
+import com.g3.user.model.User;
+import com.g3.user.service.interfaces.IUserService;
 
 @RestController
 @RequestMapping("/user")
@@ -24,9 +37,9 @@ public class UserController {
     IUserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<List<User>> getAll(@RequestParam(name = "page") int pageValue, @RequestParam(name = "size") int sizeValue) {
         try{
-            List<User> users = service.getAll();
+            List<User> users = service.getAll(pageValue, sizeValue);
             return ResponseEntity.ok(users);
 
         } catch (Exception e){
