@@ -133,11 +133,12 @@ public class UserController {
 
             return ResponseEntity.ok(users);
 
-        }
-        catch (BadRequestException e){
+        } catch (UserNotFoundException e){
+            throw new ResourceNotFoundException(e.getMessage());
+
+        } catch (BadRequestException e){
             throw new BadRequestException(e.getMessage());
-        }
-        catch (Exception e){
+        } catch (Exception e){
             throw new ErrorException(e.getMessage());
         }
     }

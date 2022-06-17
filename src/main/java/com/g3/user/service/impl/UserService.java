@@ -76,14 +76,26 @@ public class UserService implements IUserService{
     }
 
     public List<User> searchByName(String name){
-        return dao.findByNameContainingIgnoreCase(name);
+    	List<User> usersByName = dao.findByNameContainingIgnoreCase(name);
+    	if (usersByName.isEmpty()){
+            throw new UserNotFoundException();
+        }
+        return usersByName;
     }
 
     public List<User> searchByCPF(String cpf){
-        return dao.findByCpfContaining(cpf);
+    	List<User> usersByCPF = dao.findByCpfContaining(cpf);
+    	if (usersByCPF.isEmpty()){
+            throw new UserNotFoundException();
+        }
+        return usersByCPF;
     }
 
     public List<User> searchByEmail(String email){
-        return dao.findByEmailContainingIgnoreCase(email);
+    	List<User> usersByEmail = dao.findByEmailContainingIgnoreCase(email);
+    	if (usersByEmail.isEmpty()){
+            throw new UserNotFoundException();
+        }
+        return usersByEmail;
     }
 }
