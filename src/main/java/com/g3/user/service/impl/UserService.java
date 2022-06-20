@@ -76,7 +76,8 @@ public class UserService implements IUserService{
     }
 
     public List<User> searchByName(String name){
-    	List<User> usersByName = dao.findByNameContainingIgnoreCase(name);
+    	List<User> usersByName = dao.getUsersByName(name);
+    	System.out.println(usersByName);
     	if (usersByName.isEmpty()){
             throw new UserNotFoundException();
         }
