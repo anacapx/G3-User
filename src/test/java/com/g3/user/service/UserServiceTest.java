@@ -173,12 +173,12 @@ public class UserServiceTest {
         usersList.add(user);
 
         // When
-        when(userDao.findByNameContainingIgnoreCase(user.getName())).thenReturn(usersList);
+        when(userDao.getUsersByName(user.getName())).thenReturn(usersList);
 
         userService.searchByName(user.getName());
 
         // Then
-        verify(userDao).findByNameContainingIgnoreCase(any());
+        verify(userDao).getUsersByName(any());
     }
 
     @Test
