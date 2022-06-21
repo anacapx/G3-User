@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: "Upload k8s-deploy"
+      copy:
+        src: "k8s"
+        dest: "/home/ubuntu/g3"
+
+    - name: "Aplicar configmap"
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply -f /home/ubuntu/g3/k8s/services/configmap-user.yaml
+
+    - name: "Aplicar secret"
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply -f /home/ubuntu/g3/k8s/services/secret-user.yaml
+
+    - name: "Aplicar Deployment"
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply -f /home/ubuntu/g3/k8s/deployments/user-dp.yaml
+
+    - name: "Aplicar Service"
+      shell: kubectl --kubeconfig=/home/ubuntu/.kube/config apply -f /home/ubuntu/g3/k8s/services/service-user.yaml
+
+    - shell: "kubectl --kubeconfig=/home/ubuntu/.kube/config get pods -n namespace-g3"
+      register: ps
+    - debug:
+        msg: " '{{ ps.stdout_lines }}' "
+
