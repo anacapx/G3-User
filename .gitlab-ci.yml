@@ -3,9 +3,11 @@ image: debrum/ubuntu-jdk-mvn
 stages:
   - test
   - build
-  - build-docker
-  - push-docker
+  - docker
   - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
 
 unit-test-job:
   stage: test
@@ -18,31 +20,23 @@ build-mvn-job:
     - mvn clean package -Dmaven.test.skip
 
 build-docker-job:
-  image: docker
+  image: docker:latest
   services:
-    - docker:dind
+    - docker:18.09.7-dind
   before_script:
-    - docker login -u $CI_DOCKER_USER -p $CI_DOCKER_PASSWORD
+    - docker login -u ${CI_DOCKER_USER} -p ${CI_DOCKER_PASSWORD}
 
-  stage: build-docker
+  stage: docker
   script:
-    - docker build -t $URL_IMG_USER_DOCKER -f Dockerfile .
-
-push-docker-job:
-  stage: build-docker
-  script:
-    - docker push $URL_IMG_USER_DOCKER
+    - docker build -t ${URL_IMG_DOCKER_CONSUMER} -f Dockerfile .
+    - docker push ${URL_IMG_DOCKER_CONSUMER}
 
 deploy-k8s-job:
-  stage: deploy-stage
+  stage: deploy
+  image: debrum/ubuntu-ansible
   script:
     - echo "Deploying application..."
-    - cat <<EOF > key.pem
-      $PRIVATE_KEY
-      EOF
-    - chmod 400 key.pem
-    # Entrar no aws
-    - ssh -i key.pem ubuntu@$CLUSTER-DEV
-    - kubectl create namespace $namespace-g3 # acho que não é legal ter isso aqui e sim rodar apenas uma vez na máquina
-    - kubectl apply -f .k8s/deployments/user-dp.yaml
-    # agora tem que rodar os arquivos do K8s
+    - echo "${HOST_DEV_K8S}" > hosts
+    - cat hosts
+    - chmod 400 $PRIVATE_KEY
+    - ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts ansibleDeploy.yaml -u ubuntu --private-key $PRIVATE_KEY
