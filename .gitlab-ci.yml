@@ -1,0 +1,42 @@
+image: debrum/ubuntu-jdk-mvn
+
+stages:
+  - test
+  - build
+  - docker
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+
+unit-test-job:
+  stage: test
+  script:
+    - mvn test
+
+build-mvn-job:
+  stage: build
+  script:
+    - mvn clean package -Dmaven.test.skip
+
+build-docker-job:
+  image: docker:latest
+  services:
+    - docker:18.09.7-dind
+  before_script:
+    - docker login -u ${CI_DOCKER_USER} -p ${CI_DOCKER_PASSWORD}
+
+  stage: docker
+  script:
+    - docker build -t ${URL_IMG_DOCKER_CONSUMER} -f Dockerfile .
+    - docker push ${URL_IMG_DOCKER_CONSUMER}
+
+deploy-k8s-job:
+  stage: deploy
+  image: debrum/ubuntu-ansible
+  script:
+    - echo "Deploying application..."
+    - echo "${HOST_DEV_K8S}" > hosts
+    - cat hosts
+    - chmod 400 $PRIVATE_KEY
+    - ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts ansibleDeploy.yaml -u ubuntu --private-key $PRIVATE_KEY
