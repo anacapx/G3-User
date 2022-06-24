@@ -7,11 +7,11 @@ Consiste em um sistema que permite ao administrador, devidamente autenticado e a
 
 - Para ver o repositório da **API Auth**, clique [aqui](https://github.com/anacapx/g3-auth)
 
-- Para ver o repositório da **API User**, clique [aqui](https://github.com/anacapx/g3-user)
-
 - Para ver o repositório da **API Order**, clique [aqui](https://github.com/anacapx/g3-order)
 
 - Para ver o repositório do **consumer Kafka**, clique [aqui](https://github.com/anacapx/g3-consumer)
+
+- Para ver o repositório de **front-end**, clique [aqui](https://github.com/anacapx/g3-front)
 
 - Para acessar a aplicação diretamente no seu browser, acesse: http://g3kimchi.tk
 
@@ -34,11 +34,9 @@ Tecnologias que utilizamos para desenvolver esta API Rest:
 - [Java](https://www.java.com/pt-BR/) 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring Security](https://spring.io/projects/spring-security)
-- [JWT](https://jwt.io/)
 - [Swagger](https://swagger.io/)
 - [Apache HttpClient](https://hc.apache.org/httpcomponents-client-5.1.x/)
 - [PostgreSQL](https://www.postgresql.org/) 
-- [Kafka](https://kafka.apache.org/) 
 - [JUnit](https://junit.org/junit5/) 
 - [Mockito](https://site.mockito.org/) 
 - [New Relic](https://newrelic.com/) 
@@ -53,7 +51,6 @@ Tecnologias que utilizamos para desenvolver esta API Rest:
 
 - Configure um banco de dados [PostgreSQL](https://www.postgresql.org/) na sua máquina e crie um novo banco de acordo com o script encontrado neste repositório.
 - Siga os passos para rodar a API Auth.
-- Siga os passos para rodar a API User.
 
 ### Passo a passo
 
@@ -93,13 +90,14 @@ Tudo pronto! A aplicação está rodando e pode receber requisições.
 
 ## ⚙️ Funcionalidades
 Funcionalidades que o sistema oferece:
-- Autenticação do Token (Integração com API Auth)
+- Autenticação do token (integração com API Auth)
 - Cadastrar um novo usuário
 - Listar todos os usuários
 - Buscar usuário por id
 - Atualizar os dados do usuário
 - Deletar um usuário
 - Buscar um usuário a partir de um parâmetro (nome, email ou CPF)
+- Validações das requisições
 - Exceções Customizadas
 
 
