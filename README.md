@@ -50,7 +50,7 @@ Tecnologias que utilizamos para desenvolver esta API Rest:
 ### Pré-requisitos
 
 - Configure um banco de dados [PostgreSQL](https://www.postgresql.org/) na sua máquina e crie um novo banco de acordo com o script encontrado neste repositório.
-- Siga os passos para rodar a API Auth.
+- Siga os passos para rodar a [API Auth](https://github.com/anacapx/g3-auth).
 
 ### Passo a passo
 
